@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="370dp"
+    android:layout_height="260dp"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:layout_gravity="center"
+    android:id="@+id/popUpSortLayout">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sort watchlist"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:layout_marginLeft="25dp"
+            android:layout_gravity="start"/>
+        <TextView
+            android:id="@+id/txtclose"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:text="X"
+            android:textStyle="bold"
+            android:layout_marginLeft="210dp"
+            android:gravity="center"
+            android:background="@drawable/circle_background"
+            android:clickable="true"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show:"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:textSize="10dp"
+        android:textStyle="bold" />
+        <RadioGroup
+            android:id="@+id/myWatchListShow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp">
+
+            <RadioButton
+                android:id="@+id/myWatchListAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:checked="false"
+                android:text="All"
+                android:textSize="10dp" />
+            <RadioButton
+                android:id="@+id/myWatchListNotWatched"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:checked="false"
+                android:text="Not watched"
+                android:textSize="10dp" />
+
+            <RadioButton
+                android:id="@+id/myWatchListWatched"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:checked="false"
+                android:text="Watched"
+                android:textSize="10dp" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Order by:"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:textSize="10dp"
+        android:textStyle="bold" />
+        <RadioGroup
+            android:id="@+id/myWatchListOrderBy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp">
+
+            <RadioButton
+                android:id="@+id/myWatchListAlphabet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:checked="false"
+                android:text="Alphabet"
+                android:textSize="10dp" />
+
+            <RadioButton
+                android:id="@+id/myWatchListDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:checked="false"
+                android:text="Date"
+                android:textSize="10dp" />
+
+            <RadioButton
+                android:id="@+id/myWatchListRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:checked="false"
+                android:text="Rating"
+                android:textSize="10dp" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Order type:"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="10dp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/myWatchListOrderType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp">
+
+            <RadioButton
+                android:id="@+id/myWatchListAscending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:checked="false"
+                android:text="Asceding"
+                android:textSize="10dp" />
+
+            <RadioButton
+                android:id="@+id/myWatchListDesceding"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:checked="false"
+                android:text="Descending"
+                android:textSize="10dp" />
+
+        </RadioGroup>
+    </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnSort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Order watchlist"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold" />
+</LinearLayout>

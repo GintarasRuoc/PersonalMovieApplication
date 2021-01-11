@@ -133,9 +133,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
                         int pos = getAdapterPosition();
                         if(pos != RecyclerView.NO_POSITION)
                         {
-                            Movie clickedDataitem = movieList.get(pos);
+                            Movie clickedDataItem = movieList.get(pos);
                             Intent intent = new Intent(mContext, MovieDetails.class);
-                            intent.putExtra("ID", clickedDataitem.getId());
+                            intent.putExtra("ID", clickedDataItem.getId());
                             if(user != null)
                                 intent.putExtra("USER", user);
                             else intent.putExtra("USER", "");

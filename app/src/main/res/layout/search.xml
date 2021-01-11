@@ -7,7 +7,7 @@
     android:padding="5dp"
     android:layout_gravity="center"
     android:id="@+id/searchLayout"
-    android:background="#1111">
+    android:background="#ffffff">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,14 +34,28 @@
             android:clickable="true"/>
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp">
     <EditText
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:id="@+id/searchInput"
-        android:layout_marginTop="10dp"
         android:textSize="20dp"
         android:hint="Movie name"
         android:layout_gravity="center"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_mic_on"
+        android:layout_gravity="center"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/mic"/>
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnSearch"

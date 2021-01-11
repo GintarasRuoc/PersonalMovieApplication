@@ -8,26 +8,20 @@
         app:showAsAction="always"
         android:visible="false"/>
 
-    <item android:id="@+id/search"
-        android:icon="@drawable/ic_search"
-        android:title="Search"
-        app:showAsAction="never"/>
-
-<!--    <item android:id="@+id/mySelection"-->
-<!--        android:title="My Selection"-->
-<!--        android:visible="false"-->
-<!--        app:showAsAction="always"/>-->
-
     <item android:id="@+id/signIn"
         android:title="Sign in"
         app:showAsAction="always"
         android:visible="true"
         />
 
-    <!--<item android:id="@+id/logOut"
-        android:title="Log out"
-        app:showAsAction="always"
-        android:visible="false"/>-->
+    <item android:id="@+id/qrScanner"
+        android:title="QR Scanner"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/search"
+        android:icon="@drawable/ic_search"
+        android:title="Search"
+        app:showAsAction="never"/>
 
     <item android:id="@+id/mostPopular"
         android:title="Most Popular"
@@ -41,27 +35,16 @@
         android:title="Upcoming"
         app:showAsAction="never"/>
 
-    <Spinner
-        android:id="@+id/account"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    
+    <item
+        android:id="@+id/daylightSensor"
+        android:title="Get suggestion"
+        app:showAsAction="never"
+        android:visible="true"/>
 
-
-    <!--<item android:id="@+id/categories"
-        android:title="Category"
-        app:showAsAction="never">
-
-        <menu>
-
-            <item android:id="@+id/action"
-                android:title="Action" />
-
-            <item android:id="@+id/fantasy"
-                android:title="Fantasy" />
-
-        </menu>
-
-    </item>-->
+    <item
+        android:id="@+id/notification"
+        android:title="Test Notification"
+        app:showAsAction="never"
+        android:visible="true"/>
 
 </menu>

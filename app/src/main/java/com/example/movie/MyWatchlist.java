@@ -192,7 +192,6 @@ public class MyWatchlist extends AppCompatActivity {
                                 if(child.child("watched").getValue().equals("true"))
                                     info.setWatched(true);
 
-                                System.out.println(info.isWatched() + " po");
                                 baseMovieList.add(info);
 
                                 i = i -1;

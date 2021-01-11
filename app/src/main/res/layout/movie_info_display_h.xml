@@ -208,6 +208,28 @@
         </LinearLayout>
 
         </LinearLayout>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Watch trailer"
+                android:layout_gravity="center"
+                android:id="@+id/watchTrailer"/>
+
+            <com.google.android.youtube.player.YouTubePlayerView
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:id="@+id/youtubePlayer"
+                android:visibility="gone"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trailer not found"
+                android:id="@+id/trailerNotFound"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

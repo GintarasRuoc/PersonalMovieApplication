@@ -4,13 +4,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,17 +25,26 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.movie.api.Client;
 import com.example.movie.api.Service;
 import com.example.movie.classes.Movie;
+import com.example.movie.classes.MoviesInfo;
+import com.example.movie.classes.Video;
+import com.example.movie.classes.YoutubeInfo;
+import com.google.android.youtube.player.YouTubeBaseActivity;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MovieDetails extends AppCompatActivity {
+public class MovieDetails extends YouTubeBaseActivity {
 
     // Logged in google account user id
     String user;
@@ -45,6 +57,12 @@ public class MovieDetails extends AppCompatActivity {
     TextView title, rating, votes, status, release_date, overview, genres, spokenLanguages, companies, countries;
     ImageView image;
 
+    // Trailer information
+    Button watchTrailerBtn;
+    TextView failedTrailer;
+    YouTubePlayerView youTubePlayerView;
+    YouTubePlayer.OnInitializedListener onInitializedListener;
+
     Button favorite, watched;
 
     // Movie information
@@ -56,9 +74,9 @@ public class MovieDetails extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        /*getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);*/
 
         if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
             setContentView(R.layout.movie_info_display_v);
@@ -71,6 +89,7 @@ public class MovieDetails extends AppCompatActivity {
 
         intent = getIntent();
         user = intent.getStringExtra("USER");
+        System.out.println(user + " - user");
         database = FirebaseDatabase.getInstance();
         getLayoutIds();
     }
@@ -150,6 +169,9 @@ public class MovieDetails extends AppCompatActivity {
         countries = findViewById(R.id.movieCountries);
         favorite = findViewById(R.id.movieAddToFavorite);
         watched = findViewById(R.id.movieMarkAsWatched);
+        youTubePlayerView = findViewById(R.id.youtubePlayer);
+        watchTrailerBtn = findViewById(R.id.watchTrailer);
+        failedTrailer = findViewById(R.id.trailerNotFound);
         getMovieDetails();
     }
 
@@ -157,6 +179,7 @@ public class MovieDetails extends AppCompatActivity {
     private void getMovieDetails()
     {
         String id = intent.getStringExtra("ID");
+        System.out.println(id + " - io");
         Client Client = new Client();
         Service apiService =
                 Client.getClient().create(Service.class);
@@ -166,6 +189,7 @@ public class MovieDetails extends AppCompatActivity {
         call.enqueue(new Callback<Movie>() {
             @Override
             public void onResponse(Call<Movie> call, Response<Movie> response) {
+                System.out.println(response.raw().request().url());
                 details = response.body();
                 fillInfo();
             }
@@ -173,6 +197,7 @@ public class MovieDetails extends AppCompatActivity {
             @Override
             public void onFailure(Call<Movie> call, Throwable t) {
                 Toast.makeText(MovieDetails.this, "Error Fetching Data!", Toast.LENGTH_SHORT).show();
+                pd.dismiss();
             }
         } );
     }
@@ -197,6 +222,17 @@ public class MovieDetails extends AppCompatActivity {
         spokenLanguages.setText(details.getSpokenLanguagesString());
         companies.setText(details.getProductionCompaniesString());
         countries.setText(details.getProductionCountriesString());
+
+        watchTrailerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pd = new ProgressDialog(getActivity());
+                pd.setMessage("Getting movie info...");
+                pd.setCancelable(false);
+                pd.show();
+                watchTrailer();
+            }
+        });
 
         setupButtons();
     }
@@ -239,6 +275,60 @@ public class MovieDetails extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void watchTrailer(){
+        watchTrailerBtn.setVisibility(View.GONE);
+        Client Client = new Client();
+        Service apiService =
+                Client.getClientYoutube().create(Service.class);
+        Call<YoutubeInfo> call;
+
+        call = apiService.searchTailer("snippet", details.getTitle() + " trailer", BuildConfig.YOUTUBE_API_TOKEN);
+        call.enqueue(new Callback<YoutubeInfo>() {
+            @Override
+            public void onResponse(Call<YoutubeInfo> call, Response<YoutubeInfo> response) {
+                YoutubeInfo info = response.body();
+                List<Video> videos;
+                if(info.getError() != null)
+                    System.out.println("Code error: " + info.getError().getCodeError() + " Error message" + info.getError().getMessageError());
+                else {
+                    videos = info.getVideoList();
+                    for (final Video temp :
+                            videos) {
+                        if (temp.getSnippet().getTitle().toLowerCase().contains("trailer")) {
+                            youTubePlayerView.setVisibility(View.VISIBLE);
+                            onInitializedListener = new YouTubePlayer.OnInitializedListener() {
+                                @Override
+                                public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+                                    youTubePlayer.loadVideo(temp.getId().getId());
+
+                                }
+
+                                @Override
+                                public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+
+                                }
+                            };
+                            youTubePlayerView.initialize(BuildConfig.YOUTUBE_API_TOKEN, onInitializedListener);
+                            break;
+                        }
+                    }
+
+                    if (youTubePlayerView.getVisibility() == View.GONE)
+                        failedTrailer.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<YoutubeInfo> call, Throwable t) {
+                failedTrailer.setVisibility(View.VISIBLE);
+                Log.d("Error", t.getMessage());
+                Toast.makeText(MovieDetails.this, "Error Fetching Data!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        pd.dismiss();
     }
 
     public Activity getActivity()
